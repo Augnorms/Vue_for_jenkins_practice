@@ -5,7 +5,10 @@
   </nav>
   <router-view />
 </template>
-
+<script setup lang="ts">
+console.log("hello");
+const str = "augu";
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

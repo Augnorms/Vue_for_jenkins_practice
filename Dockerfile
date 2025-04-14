@@ -1,4 +1,4 @@
-FROM node:latest AS build
+FROM node:16 AS build
 
 #creata a working directory in the container
 WORKDIR /app

@@ -1,5 +1,3 @@
-#Hello
-
 pipeline {
     agent any
 
@@ -47,11 +45,11 @@ pipeline {
 
     post {
         success {
-            echo 'This will run only if the pipeline is successful.'
+            echo 'pipeline is successful.'
         }
 
         failure {
-            echo 'This will run only if the pipeline fails.'
+            echo 'pipeline failed.'
         }
     }
 

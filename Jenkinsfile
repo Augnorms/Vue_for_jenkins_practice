@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Audit tools') {
             steps {
-               auditTools()
+               auditTool()
             }
         }
 

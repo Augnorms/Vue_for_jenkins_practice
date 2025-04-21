@@ -2,10 +2,9 @@ pipeline{
     agent any
 
     environment {
-        // Define environment variables here
-        VERSION = '1.0.0'
-        RELEASE_VERSION = 'Release 1.0.0'
-    }
+      VERSION = "1.0.${BUILD_NUMBER}"
+      RELEASE_VERSION = "Release-1.0.${BUILD_NUMBER}"
+   }
     stages{
         stage('Audit tools'){
             steps{
@@ -40,6 +39,19 @@ pipeline{
                 sh '''
                   yarn test
                 '''
+            }
+        }
+        stage('Inject version'){
+            steps{
+                echo 'Injecting version...'
+                script{
+                    def versionContent = """{
+                        "version": "${VERSION}",
+                        "release": "${RELEASE_VERSION}"
+                    }"""
+                    writeFile file: 'dist/version.json', text: versionContent
+                    echo "Version file created with content: ${versionContent}"
+                }
             }
         }
         stage('Build'){

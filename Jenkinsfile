@@ -1,3 +1,8 @@
+library identifier: 'shared_jenkins_functions@main', retriever: modernSCM([
+    $class: 'GitSCMSource',
+    remote: 'https://github.com/Augnorms/shared_jenkins_functions.git',
+    credentialsId: '833c712c-944d-4c6b-8356-4c764419d694'])
+
 pipeline {
     agent any
 
@@ -9,21 +14,7 @@ pipeline {
     stages {
         stage('Audit tools') {
             steps {
-                sh '''
-                    git version
-                    node -v
-                    npm -v
-                    yarn -v
-                '''
-            }
-        }
-
-        stage('Configure Git') {
-            steps {
-                sh '''
-                    git config --global user.email "jenkins@yourcompany.com"
-                    git config --global user.name "Jenkins CI"
-                '''
+               auditTools()
             }
         }
 

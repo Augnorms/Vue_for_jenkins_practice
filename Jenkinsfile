@@ -41,6 +41,14 @@ pipeline{
                 '''
             }
         }
+        stage('Build'){
+            steps{
+                echo 'Running Build..'
+                sh '''
+                  yarn build
+                '''
+            }
+        }
         stage('Inject version'){
             steps{
                 echo 'Injecting version...'
@@ -52,14 +60,6 @@ pipeline{
                     writeFile file: 'dist/version.json', text: versionContent
                     echo "Version file created with content: ${versionContent}"
                 }
-            }
-        }
-        stage('Build'){
-            steps{
-                echo 'Running Build..'
-                sh '''
-                  yarn build
-                '''
             }
         }
     }

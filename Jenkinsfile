@@ -18,6 +18,14 @@ pipeline{
             }
 
         }
+        stage('Package installation'){
+            steps{
+                echo 'Installing packages...'
+                sh '''
+                  yarn install
+                '''
+            }
+        }
         stage('Unit test'){
             steps{
                 echo 'Running unit tests...'

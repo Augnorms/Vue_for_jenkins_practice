@@ -58,12 +58,12 @@ pipeline {
         stage('Tag and Push') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: '77070100-fe24-413e-a96c-c4cfb9324cab',
+                    credentialsId: '833c712c-944d-4c6b-8356-4c764419d694',
                     usernameVariable: 'GIT_USERNAME',
                     passwordVariable: 'GIT_PASSWORD'
                 )]) {
                     sh '''
-                        git config --global user.email "you@example.com"
+                        git config --global user.email "augustinenormanyo98@gmail.com"
                         git config --global user.name "$GIT_USERNAME"
                         git tag -a ${RELEASE_VERSION} -m "Release version ${RELEASE_VERSION}"
                         git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Augnorms/Vue_for_jenkins_practice.git ${RELEASE_VERSION}

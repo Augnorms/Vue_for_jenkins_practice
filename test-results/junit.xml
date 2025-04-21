@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" errors="0" time="3.16">
-  <testsuite name="HelloWorld.vue" errors="0" failures="0" skipped="0" timestamp="2025-04-21T09:05:50" time="1.849" tests="1">
-    <testcase classname="HelloWorld.vue-renders props.msg when passed" name="HelloWorld.vue-renders props.msg when passed" time="0.033">
+<testsuites name="jest tests" tests="1" failures="0" errors="0" time="3.524">
+  <testsuite name="HelloWorld.vue" errors="0" failures="0" skipped="0" timestamp="2025-04-21T09:08:02" time="2.085" tests="1">
+    <testcase classname="HelloWorld.vue-renders props.msg when passed" name="HelloWorld.vue-renders props.msg when passed" time="0.039">
     </testcase>
   </testsuite>
 </testsuites>

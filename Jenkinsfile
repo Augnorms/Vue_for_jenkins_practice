@@ -22,7 +22,7 @@ pipeline{
             steps{
                 echo 'Running unit tests...'
                 sh '''
-                  yarn jest
+                  yarn test
                 '''
             }
         }

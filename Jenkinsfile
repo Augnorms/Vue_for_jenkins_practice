@@ -18,6 +18,15 @@ pipeline {
             }
         }
         
+        stage('Configure Git') {
+            steps {
+                sh '''
+                    git config --global user.email "jenkins@yourcompany.com"
+                    git config --global user.name "Jenkins CI"
+                '''
+            }
+        }
+        
         stage('Package installation') {
             steps {
                 echo 'Installing packages...'
@@ -41,7 +50,7 @@ pipeline {
         
         stage('Build') {
             steps {
-                echo 'Running Build..'
+                echo 'Running Build...'
                 sh 'yarn build'
             }
         }
@@ -49,16 +58,17 @@ pipeline {
         stage('Publish') {
             steps {
                 script {
-                    withCredentials([sshUserPrivateKey(
-                        credentialsId: 'git-ssh-key',
-                        keyFileVariable: 'SSH_KEY',
-                        usernameVariable: 'GIT_USER'
+                    // Archive build artifacts
+                    archiveArtifacts artifacts: 'dist/**', fingerprint: true
+                    
+                    // Git tagging with credentials
+                    withCredentials([usernamePassword(
+                        usernameVariable: 'Augnorms',
+                        passwordVariable: 'microvelli027'
                     )]) {
                         sh """
-                            git config --global user.email "augustinenormanyo98@gmail.com"
-                            git config --global user.name "Augustine Normanyo"
-                            GIT_SSH_COMMAND="ssh -i ${SSH_KEY} -o IdentitiesOnly=yes" git tag -a ${RELEASE_VERSION} -m "Version ${RELEASE_VERSION}"
-                            GIT_SSH_COMMAND="ssh -i ${SSH_KEY} -o IdentitiesOnly=yes" git push origin ${RELEASE_VERSION}
+                            git tag -a ${RELEASE_VERSION} -m "Release version ${RELEASE_VERSION}"
+                            git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/https://github.com/Augnorms/Vue_for_jenkins_practice.git ${RELEASE_VERSION}
                         """
                     }
                 }

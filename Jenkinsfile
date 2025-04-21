@@ -49,17 +49,22 @@ pipeline{
                 '''
             }
         }
-        stage('Inject version'){
+        stage('Publish'){
             steps{
-                echo 'Injecting version...'
-                script{
-                    def versionContent = """{
-                        "version": "${VERSION}",
-                        "release": "${RELEASE_VERSION}"
-                    }"""
-                    writeFile file: 'dist/version.json', text: versionContent
-                    echo "Version file created with content: ${versionContent}"
-                }
+               script {
+                    // Archive build artifacts
+                    archiveArtifacts artifacts: 'dist/**', fingerprint: true
+
+                    sh'''
+                      git tag -a ${RELEASE_VERSION} -m "Release version ${RELEASE_VERSION}"
+                      git push origin ${RELEASE_VERSION}
+                      git push origin --tags
+                      '''
+            }
+        }
+      post{
+            always {
+                cleanWs()
             }
         }
     }

@@ -1,8 +1,9 @@
-library identifier: 'shared_jenkins_functions@main', retriever: modernSCM([
-    $class: 'GitSCMSource',
-    remote: 'https://github.com/Augnorms/shared_jenkins_functions.git',
-    credentialsId: '833c712c-944d-4c6b-8356-4c764419d694'
-])
+// library identifier: 'shared_jenkins_functions@main', retriever: modernSCM([
+//     $class: 'GitSCMSource',
+//     remote: 'https://github.com/Augnorms/shared_jenkins_functions.git',
+//     credentialsId: '833c712c-944d-4c6b-8356-4c764419d694'
+// ])
+@Library('shared_jenkins_functions') _
 
 pipeline {
     agent any

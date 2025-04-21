@@ -1,62 +1,37 @@
-pipeline {
-    agent any
-
+pipeline{
+    agents any
     environment {
-        MY_ENV_VAR = 'Hello, World!'
+        // Define environment variables here
+        VERSION = '1.0.0'
+        RELEASE_VERSION = 'Release 1.0.0'
     }
-
-    stages {
-        stage('Sanity Check') {
-            steps {
-                echo 'Pipeline has started and MY_ENV_VAR = ' + MY_ENV_VAR
+    stages{
+        stage('Audit tools'){
+            steps{
+                sh'''
+                  git version
+                  node -v
+                  npm -v
+                  yarn -v
+                '''
             }
-        }
 
-        stage('Checkout') {
-            steps {
-                echo 'Checking out code...'
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: 'https://github.com/Augnorms/Vue_for_jenkins_practice.git']],
-                    extensions: [[$class: 'CleanBeforeCheckout'], [$class: 'CloneOption', noTags: false, reference: '', shallow: true, depth: 1, timeout: 10]],
-                ])
-            }
         }
-
-        stage('Build') {
-            steps {
+        stage('Unit test'){
+            steps{
+                echo 'Running unit tests...'
                 sh '''
-                    ls
-                    echo "In build stage"
+                  yarn test
                 '''
             }
         }
-
-        stage('Test') {
-            steps {
+        stage('Build'){
+            steps{
+                echo 'Running Build..'
                 sh '''
-                    echo "In test stage"
+                  yarn build
                 '''
             }
-        }
-
-        stage('Deploy') {
-            steps {
-                sh '''
-                    echo "In deploy stage Value of ENV variable is $MY_ENV_VAR"
-                '''
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'pipeline is successful.'
-        }
-
-        failure {
-            echo 'pipeline failed.'
         }
     }
 }

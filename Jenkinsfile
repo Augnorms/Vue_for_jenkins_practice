@@ -52,16 +52,21 @@ pipeline{
         stage('Publish'){
             steps{
                script {
-                    // Archive build artifacts
-                    archiveArtifacts artifacts: 'dist/**', fingerprint: true
-
-                    sh'''
-                      git tag -a ${RELEASE_VERSION} -m "Release version ${RELEASE_VERSION}"
-                      git push origin ${RELEASE_VERSION}
-                      git push origin --tags
-                      '''
+                     withCredentials([sshUserPrivateKey(
+                        credentialsId: 'git-ssh-key',
+                        keyFileVariable: 'SSH_KEY',
+                        usernameVariable: 'GIT_USER'
+                    )]) {
+                        sh """
+                            git config --global user.email
+                            git config --global user.name
+                            GIT_SSH_COMMAND="ssh -i ${SSH_KEY} -o IdentitiesOnly=yes" git tag -a ${RELEASE_VERSION} -m "Version ${RELEASE_VERSION}"
+                            GIT_SSH_COMMAND="ssh -i ${SSH_KEY} -o IdentitiesOnly=yes" git push origin ${RELEASE_VERSION}
+                        """
+                    }
+               }
             }
-        }
+      }
       post{
             always {
                 cleanWs()
@@ -69,4 +74,3 @@ pipeline{
         }
     }
   }
-}

@@ -1,5 +1,6 @@
 pipeline{
-    agents any
+    agent any
+
     environment {
         // Define environment variables here
         VERSION = '1.0.0'

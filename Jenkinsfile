@@ -26,6 +26,14 @@ pipeline{
                 '''
             }
         }
+        stage('Run Linting'){
+            steps{
+                echo 'Running Linting...'
+                sh '''
+                  yarn lint
+                '''
+            }
+        }
         stage('Unit test'){
             steps{
                 echo 'Running unit tests...'
